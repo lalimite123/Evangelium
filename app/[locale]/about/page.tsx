@@ -6,7 +6,7 @@ import { DonateButton } from '@/components/donate/donate-button'
 import { PageHero } from '@/components/page-hero'
 import { ParallaxImage } from '@/components/parallax-image'
 import { Reveal, RevealGroup, RevealItem } from '@/components/reveal'
-import { isLocale, localePath } from '@/lib/i18n/config'
+import { isLocale, locales, localePath } from '@/lib/i18n/config'
 import { getDictionary } from '@/lib/i18n/get-dictionary'
 
 type Props = { params: Promise<{ locale: string }> }
@@ -15,7 +15,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   if (!isLocale(locale)) return {}
   const dict = await getDictionary(locale)
-  return { title: dict.about.meta.title, description: dict.about.meta.description }
+  const canonical = `/${locale}/about`
+  return {
+    title: dict.about.meta.title,
+    description: dict.about.meta.description,
+    alternates: {
+      canonical,
+      languages: Object.fromEntries(locales.map((l) => [l, `/${l}/about`])),
+    },
+    openGraph: {
+      title: dict.about.meta.title,
+      description: dict.about.meta.description,
+      url: canonical,
+      locale,
+      alternateLocale: locales.filter((l) => l !== locale),
+      type: 'article',
+      images: [{ url: '/images/hero-bible.png', width: 1600, height: 900, alt: dict.about.meta.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: dict.about.meta.title,
+      description: dict.about.meta.description,
+      images: ['/images/hero-bible.png'],
+    },
+  }
 }
 
 const purposeIcons = [BookOpenText, GraduationCap, HeartHandshake]

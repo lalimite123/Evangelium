@@ -5,7 +5,7 @@ import { DonateBanner } from '@/components/donate/donate-banner'
 import { PageHero } from '@/components/page-hero'
 import { ParallaxImage } from '@/components/parallax-image'
 import { Reveal, RevealGroup, RevealItem } from '@/components/reveal'
-import { isLocale } from '@/lib/i18n/config'
+import { isLocale, locales } from '@/lib/i18n/config'
 import { getDictionary } from '@/lib/i18n/get-dictionary'
 import { siteConfig } from '@/lib/site-config'
 
@@ -15,7 +15,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   if (!isLocale(locale)) return {}
   const dict = await getDictionary(locale)
-  return { title: dict.contact.meta.title, description: dict.contact.meta.description }
+  const canonical = `/${locale}/contact`
+  return {
+    title: dict.contact.meta.title,
+    description: dict.contact.meta.description,
+    alternates: {
+      canonical,
+      languages: Object.fromEntries(locales.map((l) => [l, `/${l}/contact`])),
+    },
+    openGraph: {
+      title: dict.contact.meta.title,
+      description: dict.contact.meta.description,
+      url: canonical,
+      locale,
+      alternateLocale: locales.filter((l) => l !== locale),
+      type: 'website',
+      images: [{ url: '/images/dortmund.png', width: 1600, height: 900, alt: dict.contact.meta.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: dict.contact.meta.title,
+      description: dict.contact.meta.description,
+      images: ['/images/dortmund.png'],
+    },
+  }
 }
 
 export default async function ContactPage({ params }: Props) {

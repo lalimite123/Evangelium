@@ -21,14 +21,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default: siteConfig.name,
-    template: '%s',
+    template: `%s · ${siteConfig.name}`,
   },
-  description:
-    'Evangelische Gemeinde in Dortmund – Gottesdienste, Seelsorge, Bildung und Nächstenliebe auf der Grundlage der Bibel.',
   applicationName: siteConfig.name,
   icons: {
     icon: [{ url: '/icon.png', type: 'image/png' }],
-    apple: '/icon.png',
+    apple: '/apple-icon.png',
   },
 }
 
@@ -45,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="de" className={`${inter.variable} ${outfit.variable} bg-background`} suppressHydrationWarning>
+    <html className={`${inter.variable} ${outfit.variable} bg-background`} suppressHydrationWarning>
       <body className="min-h-dvh antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}

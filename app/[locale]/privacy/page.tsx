@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Info } from 'lucide-react'
 import { PageHero } from '@/components/page-hero'
-import { isLocale } from '@/lib/i18n/config'
+import { isLocale, locales } from '@/lib/i18n/config'
 import { getDictionary } from '@/lib/i18n/get-dictionary'
 import { siteConfig } from '@/lib/site-config'
 
@@ -12,7 +12,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   if (!isLocale(locale)) return {}
   const dict = await getDictionary(locale)
-  return { title: dict.privacy.meta.title, description: dict.privacy.meta.description, robots: { index: false } }
+  const canonical = `/${locale}/privacy`
+  return {
+    title: dict.privacy.meta.title,
+    description: dict.privacy.meta.description,
+    robots: { index: false, follow: false },
+    alternates: {
+      canonical,
+      languages: Object.fromEntries(locales.map((l) => [l, `/${l}/privacy`])),
+    },
+  }
 }
 
 const sections: { title: string; paragraphs: string[] }[] = [

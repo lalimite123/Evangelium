@@ -5,7 +5,7 @@ import { BankDetails } from '@/components/donate/bank-details'
 import { PaypalDonate } from '@/components/donate/paypal-donate'
 import { PageHero } from '@/components/page-hero'
 import { Reveal, RevealGroup, RevealItem } from '@/components/reveal'
-import { isLocale } from '@/lib/i18n/config'
+import { isLocale, locales } from '@/lib/i18n/config'
 import { getDictionary } from '@/lib/i18n/get-dictionary'
 import { siteConfig } from '@/lib/site-config'
 
@@ -15,7 +15,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   if (!isLocale(locale)) return {}
   const dict = await getDictionary(locale)
-  return { title: dict.donate.meta.title, description: dict.donate.meta.description }
+  const canonical = `/${locale}/donate`
+  return {
+    title: dict.donate.meta.title,
+    description: dict.donate.meta.description,
+    alternates: {
+      canonical,
+      languages: Object.fromEntries(locales.map((l) => [l, `/${l}/donate`])),
+    },
+    openGraph: {
+      title: dict.donate.meta.title,
+      description: dict.donate.meta.description,
+      url: canonical,
+      locale,
+      alternateLocale: locales.filter((l) => l !== locale),
+      type: 'website',
+      images: [{ url: '/images/giving.png', width: 1600, height: 900, alt: dict.donate.meta.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: dict.donate.meta.title,
+      description: dict.donate.meta.description,
+      images: ['/images/giving.png'],
+    },
+  }
 }
 
 export default async function DonatePage({ params }: Props) {

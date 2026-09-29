@@ -5,7 +5,7 @@ import { DonateBanner } from '@/components/donate/donate-banner'
 import { PageHero } from '@/components/page-hero'
 import { Reveal, RevealGroup, RevealItem } from '@/components/reveal'
 import { books } from '@/lib/content/books'
-import { isLocale } from '@/lib/i18n/config'
+import { isLocale, locales } from '@/lib/i18n/config'
 import { getDictionary } from '@/lib/i18n/get-dictionary'
 
 type Props = { params: Promise<{ locale: string }> }
@@ -14,7 +14,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   if (!isLocale(locale)) return {}
   const dict = await getDictionary(locale)
-  return { title: dict.books.meta.title, description: dict.books.meta.description }
+  const canonical = `/${locale}/books`
+  return {
+    title: dict.books.meta.title,
+    description: dict.books.meta.description,
+    alternates: {
+      canonical,
+      languages: Object.fromEntries(locales.map((l) => [l, `/${l}/books`])),
+    },
+    openGraph: {
+      title: dict.books.meta.title,
+      description: dict.books.meta.description,
+      url: canonical,
+      locale,
+      alternateLocale: locales.filter((l) => l !== locale),
+      type: 'website',
+      images: [{ url: '/images/books/cover-1.png', width: 1200, height: 1600, alt: dict.books.meta.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: dict.books.meta.title,
+      description: dict.books.meta.description,
+      images: ['/images/books/cover-1.png'],
+    },
+  }
 }
 
 export default async function BooksPage({ params }: Props) {

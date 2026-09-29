@@ -31,10 +31,10 @@ function parseCookieHeader(cookieHeader: string): Record<string, string> {
   return out
 }
 
-function getCookieLocale(): Locale | null {
+async function getCookieLocale(): Promise<Locale | null> {
   try {
     const h = headers()
-    const cookieHeader = h.get('cookie') ?? ''
+    const cookieHeader = (await h).get('cookie') ?? ''
     const cookies = parseCookieHeader(cookieHeader)
     const raw = cookies[COOKIE_KEY]
     if (!raw) return null
@@ -46,13 +46,13 @@ function getCookieLocale(): Locale | null {
   }
 }
 
-function getPathnameLocale(): Locale | null {
+async function getPathnameLocale(): Promise<Locale | null> {
   try {
     const h = headers()
     const nextPathname =
-      h.get('x-next-pathname') ??
-      h.get('x-invoke-path') ??
-      h.get('x-matched-path') ??
+      (await h).get('x-next-pathname') ??
+      (await h).get('x-invoke-path') ??
+      (await h).get('x-matched-path') ??
       ''
     const first = nextPathname.split('/').filter(Boolean)[0]
     if (!first) return null
@@ -63,10 +63,10 @@ function getPathnameLocale(): Locale | null {
   }
 }
 
-function getRefererLocale(): Locale | null {
+async function getRefererLocale(): Promise<Locale | null> {
   try {
     const h = headers()
-    const referer = h.get('referer') ?? ''
+    const referer = (await h).get('referer') ?? ''
     if (!referer) return null
     let refPath: string
     try {
@@ -83,10 +83,10 @@ function getRefererLocale(): Locale | null {
   }
 }
 
-function getAcceptLanguageLocale(): Locale | null {
+async function getAcceptLanguageLocale(): Promise<Locale | null> {
   try {
     const h = headers()
-    const accept = h.get('accept-language') ?? ''
+    const accept = (await h).get('accept-language') ?? ''
     if (!accept) return null
     const tags = accept
       .split(',')
@@ -116,15 +116,15 @@ function getAcceptLanguageLocale(): Locale | null {
   }
 }
 
-function detectLocale(paramsLocale?: string): Locale {
+async function detectLocale(paramsLocale?: string): Promise<Locale> {
   if (paramsLocale && VALID_LOCALE_RE.test(paramsLocale) && isLocale(paramsLocale.toLowerCase())) {
     return paramsLocale.toLowerCase() as Locale
   }
   return (
-    getCookieLocale() ??
-    getPathnameLocale() ??
-    getRefererLocale() ??
-    getAcceptLanguageLocale() ??
+    await getCookieLocale() ??
+    await getPathnameLocale() ??
+    await getRefererLocale() ??
+    await getAcceptLanguageLocale() ??
     defaultLocale
   )
 }
@@ -138,7 +138,7 @@ export default async function NotFound({ params }: Props) {
     // swallow: detection falls back to headers / defaults
   }
 
-  const locale = detectLocale(paramsLocale)
+  const locale = await detectLocale(paramsLocale)
   const dict = await getDictionary(locale)
 
   return (

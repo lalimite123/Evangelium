@@ -1,4 +1,3 @@
-import { headers } from 'next/headers'
 import { NotFoundShell, getNotFoundDictionary } from './_not-found-shared'
 import {
   cookieName,
@@ -8,36 +7,38 @@ import {
   parseCookies,
   type Locale,
 } from '@/lib/i18n/config'
+import { readHeaderSafe, readHeadersSafe } from '@/lib/headers-safe'
 
 function detectFromRequest(): Locale {
   try {
-    const h = headers()
-    const pathnameCandidates = [
-      h.get('x-next-pathname'),
-      h.get('x-invoke-path'),
-      h.get('x-matched-path'),
-      h.get('next-url'),
-      h.get('x-next-url'),
-      h.get('x-next-rewrite-original-pathname'),
-      h.get(':path'),
+    const all = readHeadersSafe()
+    const pathnameKeys = [
+      'x-next-pathname',
+      'x-invoke-path',
+      'x-matched-path',
+      'next-url',
+      'x-next-url',
+      'x-next-rewrite-original-pathname',
+      ':path',
     ]
-    for (const c of pathnameCandidates) {
-      const p = extractLocaleFromFirstSegment(c)
+    for (const k of pathnameKeys) {
+      const p = extractLocaleFromFirstSegment(all[k])
       if (p) return p
     }
-    const referer = h.get('referer') ?? null
+    const referer = all['referer'] ?? null
     if (referer) {
       let rp: string | null = null
       try { rp = new URL(referer).pathname } catch { rp = referer }
       const fromRef = extractLocaleFromFirstSegment(rp)
       if (fromRef) return fromRef
     }
-    const ck = parseCookies(h.get('cookie') ?? null)[cookieName]
+    const ck = parseCookies(all['cookie'] ?? null)[cookieName]
     if (typeof ck === 'string') {
       const loc = ck.toLowerCase().slice(0, 2)
       if (loc === 'de' || loc === 'en' || loc === 'fr') return loc as Locale
     }
-    const al = detectLangFromAccept(h.get('accept-language') ?? null)
+    const acceptLang = readHeaderSafe('accept-language')
+    const al = detectLangFromAccept(acceptLang)
     if (al) return al
   } catch {
     // fall through

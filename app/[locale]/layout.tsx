@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { headers } from 'next/headers'
 import { notFound } from 'next/navigation'
 import Script from 'next/script'
 import { SiteHeader } from '@/components/site-header'
@@ -11,6 +10,7 @@ import { AnalyticsGate } from '@/components/analytics-gate'
 import { isLocale, locales, type Locale } from '@/lib/i18n/config'
 import { getDictionary } from '@/lib/i18n/get-dictionary'
 import { siteConfig } from '@/lib/site-config'
+import { readCookieHeaderSafe } from '@/lib/headers-safe'
 import { readConsentFromRequest } from '@/lib/cookie-consent'
 
 type Props = { children: React.ReactNode; params: Promise<{ locale: string }> }
@@ -62,8 +62,13 @@ export default async function LocaleLayout({ children, params }: Props) {
   if (!isLocale(locale)) notFound()
   const dict = await getDictionary(locale as Locale)
 
-  const cookieHeader = headers().get('cookie') ?? null
-  const initialConsent = readConsentFromRequest(cookieHeader)
+  let initialConsent: ReturnType<typeof readConsentFromRequest> = null
+  try {
+    const cookieHeader = readCookieHeaderSafe()
+    initialConsent = readConsentFromRequest(cookieHeader)
+  } catch {
+    initialConsent = null
+  }
 
   const jsonLd = {
     '@context': 'https://schema.org',

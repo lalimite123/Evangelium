@@ -19,7 +19,7 @@ function detectLocale(request: NextRequest) {
   return defaultLocale
 }
 
-export function proxy(request: NextRequest) {
+export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   if (
@@ -36,7 +36,6 @@ export function proxy(request: NextRequest) {
 
   if (hasLocale) {
     const response = NextResponse.next()
-    // Remember the last visited locale for future visits to "/".
     response.cookies.set('locale', firstSegment, { path: '/', maxAge: 60 * 60 * 24 * 365, sameSite: 'lax' })
     return response
   }
@@ -44,7 +43,7 @@ export function proxy(request: NextRequest) {
   const locale = detectLocale(request)
   const url = request.nextUrl.clone()
   url.pathname = `/${locale}${pathname === '/' ? '' : pathname}`
-  return NextResponse.redirect(url)
+  return NextResponse.redirect(url, 307)
 }
 
 export const config = {

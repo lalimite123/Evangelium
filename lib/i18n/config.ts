@@ -25,10 +25,30 @@ export const localeNames: Record<Locale, string> = {
   fr: 'FR',
 }
 
-export function localePath(locale: Locale, path: string = routes.home): string {
-  const base = `/${locale}${path}`
-  if (path === routes.home) return `/${locale}`
-  return base
+export function localePath(locale: Locale, ...segments: Array<string | null | undefined>): string {
+  const cleanSegments: string[] = []
+  for (const raw of segments) {
+    if (raw == null) continue
+    const str = String(raw)
+    if (!str || str === routes.home) continue
+    const part = str.replace(/^\/+|\/+$/g, '')
+    if (!part) continue
+    if (part.includes('#')) {
+      const [before, hash] = part.split('#', 2)
+      if (before) cleanSegments.push(before)
+      cleanSegments.push('#' + hash)
+      continue
+    }
+    cleanSegments.push(part)
+  }
+  let out = '/' + locale
+  if (cleanSegments.length > 0) {
+    const pathPart = cleanSegments.filter((s) => !s.startsWith('#')).join('/')
+    const hashPart = cleanSegments.filter((s) => s.startsWith('#'))[0] ?? ''
+    if (pathPart) out += '/' + pathPart
+    if (hashPart) out += hashPart
+  }
+  return out
 }
 
 export function detectLangFromAccept(accept: string | undefined | null): Locale | null {

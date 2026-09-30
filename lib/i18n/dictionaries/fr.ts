@@ -42,7 +42,7 @@ export const fr: Dictionary = {
         titleTop: 'Enracinés',
         titleBottom: 'dans la Parole.',
         text: "La Bible est le fondement de tout ce que notre église pense et fait. Par les cultes, les conférences et les petits groupes, nous transmettons l'enseignement chrétien – de manière claire et proche du quotidien.",
-        primary: { label: 'Nos activités', route: 'home', hash: 'arbeit' },
+        primary: { label: 'Nos activités', route: 'home', hash: '#arbeit' },
         secondary: { label: 'À propos', route: 'about' },
       },
       {
@@ -50,7 +50,7 @@ export const fr: Dictionary = {
         titleTop: "L'amour",
         titleBottom: 'en action.',
         text: "Accompagnement, formation, soutien dans la détresse : dans la mesure de nos moyens, nous voulons être présents là où l'on a besoin de nous – à Dortmund et dans le monde.",
-        primary: { label: "S'engager", route: 'home', hash: 'mitmachen' },
+        primary: { label: "S'engager", route: 'home', hash: '#mitmachen' },
         secondary: { label: 'Contact', route: 'contact' },
       },
     ],

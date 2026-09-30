@@ -39,7 +39,7 @@ export function SiteHeader({ locale, dict }: Props) {
   const links = [
     { label: dict.nav.home, href: localePath(locale) },
     { label: dict.nav.about, href: localePath(locale, 'about') },
-    { label: dict.nav.ministries, href: localePath(locale, 'home', 'arbeit') },
+    { label: dict.nav.ministries, href: localePath(locale) + '#arbeit' },
     { label: dict.nav.books, href: localePath(locale, 'books') },
     { label: dict.nav.statutes, href: localePath(locale, 'statutes') },
     { label: dict.nav.contact, href: localePath(locale, 'contact') },

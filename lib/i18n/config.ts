@@ -26,28 +26,36 @@ export const localeNames: Record<Locale, string> = {
 }
 
 export function localePath(locale: Locale, ...segments: Array<string | null | undefined>): string {
-  const cleanSegments: string[] = []
+  const pathSegments: string[] = []
+  let hash: string | null = null
   for (const raw of segments) {
     if (raw == null) continue
-    const str = String(raw)
+    let str = String(raw)
     if (!str || str === routes.home) continue
-    const part = str.replace(/^\/+|\/+$/g, '')
-    if (!part) continue
-    if (part.includes('#')) {
-      const [before, hash] = part.split('#', 2)
-      if (before) cleanSegments.push(before)
-      cleanSegments.push('#' + hash)
+    if (str === 'home') continue
+    // strip leading/trailing slashes per chunk
+    str = str.replace(/^\/+|\/+$/g, '')
+    if (!str) continue
+    // split embedded hash off e.g. "books#top" -> "books" + "#top"
+    const hashPos = str.indexOf('#')
+    if (hashPos !== -1) {
+      const before = str.slice(0, hashPos)
+      const h = str.slice(hashPos)
+      if (before) {
+        for (const p of before.split('/')) if (p) pathSegments.push(p)
+      }
+      hash = h.startsWith('#') ? h : '#' + h
       continue
     }
-    cleanSegments.push(part)
+    if (str.startsWith('#')) {
+      hash = str
+      continue
+    }
+    for (const p of str.split('/')) if (p) pathSegments.push(p)
   }
   let out = '/' + locale
-  if (cleanSegments.length > 0) {
-    const pathPart = cleanSegments.filter((s) => !s.startsWith('#')).join('/')
-    const hashPart = cleanSegments.filter((s) => s.startsWith('#'))[0] ?? ''
-    if (pathPart) out += '/' + pathPart
-    if (hashPart) out += hashPart
-  }
+  if (pathSegments.length > 0) out += '/' + pathSegments.join('/')
+  if (hash) out += hash
   return out
 }
 

@@ -42,7 +42,7 @@ export const en: Dictionary = {
         titleTop: 'Rooted',
         titleBottom: 'in the Word.',
         text: 'The Bible is the foundation of everything our church thinks and does. Through services, talks and small groups we teach the Christian faith – clearly and close to everyday life.',
-        primary: { label: 'Our work', route: 'home', hash: 'arbeit' },
+        primary: { label: 'Our work', route: 'home', hash: '#arbeit' },
         secondary: { label: 'About us', route: 'about' },
       },
       {
@@ -50,7 +50,7 @@ export const en: Dictionary = {
         titleTop: 'Love that',
         titleBottom: 'acts.',
         text: 'Pastoral care, education, help in times of need: within our means we want to be there wherever people need us – in Dortmund and around the world.',
-        primary: { label: 'Get involved', route: 'home', hash: 'mitmachen' },
+        primary: { label: 'Get involved', route: 'home', hash: '#mitmachen' },
         secondary: { label: 'Contact', route: 'contact' },
       },
     ],

@@ -15,7 +15,7 @@ export function SiteFooter({ locale, dict }: Props) {
   const nav = [
     { label: dict.nav.home, href: localePath(locale) },
     { label: dict.nav.about, href: localePath(locale, 'about') },
-    { label: dict.nav.ministries, href: localePath(locale, 'home', 'arbeit') },
+    { label: dict.nav.ministries, href: localePath(locale) + '#arbeit' },
     { label: dict.nav.books, href: localePath(locale, 'books') },
     { label: dict.footer.donate, href: localePath(locale, 'donate') },
     { label: dict.nav.contact, href: localePath(locale, 'contact') },

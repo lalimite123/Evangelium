@@ -42,7 +42,7 @@ export const de: Dictionary = {
         titleTop: 'Verwurzelt',
         titleBottom: 'im Wort.',
         text: 'Die Bibel ist die Grundlage allen Denkens und Handelns unserer Gemeinde. In Gottesdiensten, Vorträgen und Kleingruppen vermitteln wir die christliche Lehre – verständlich und alltagsnah.',
-        primary: { label: 'Unsere Arbeit', route: 'home', hash: 'arbeit' },
+        primary: { label: 'Unsere Arbeit', route: 'home', hash: '#arbeit' },
         secondary: { label: 'Über uns', route: 'about' },
       },
       {
@@ -50,7 +50,7 @@ export const de: Dictionary = {
         titleTop: 'Liebe, die',
         titleBottom: 'handelt.',
         text: 'Seelsorge, Bildung, Unterstützung in Notlagen: Wir wollen im Rahmen unserer Möglichkeiten da sein, wo Menschen uns brauchen – in Dortmund und weltweit.',
-        primary: { label: 'Mitmachen', route: 'home', hash: 'mitmachen' },
+        primary: { label: 'Mitmachen', route: 'home', hash: '#mitmachen' },
         secondary: { label: 'Kontakt', route: 'contact' },
       },
     ],

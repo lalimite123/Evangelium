@@ -46,6 +46,10 @@ export const siteConfig = {
     youtube: 'https://youtube.com', // TODO
     facebook: 'https://facebook.com', // TODO
   },
+  analytics: {
+    /** Google Analytics 4 Measurement ID (G-XXXXXXXXXX). Empty = disabled until set. */
+    ga4MeasurementId: '', // TODO: set real GA4 ID once available
+  },
   founded: '26.11.2023',
   amended: '28.03.2024',
 } as const

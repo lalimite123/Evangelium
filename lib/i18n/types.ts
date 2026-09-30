@@ -128,6 +128,7 @@ export type Dictionary = {
     imprint: string
     privacy: string
     statutes: string
+    cookieSettings: string
   }
   about: {
     meta: { title: string; description: string }
@@ -170,4 +171,32 @@ export type Dictionary = {
   imprint: { meta: { title: string; description: string }; title: string; note: string | null }
   privacy: { meta: { title: string; description: string }; title: string; note: string | null }
   notFound: { title: string; text: string }
+  consent: {
+    title: string
+    description: string
+    acceptAll: string
+    rejectAll: string
+    save: string
+    customize: string
+    categories: {
+      necessary: {
+        title: string
+        description: string
+      }
+      statistics: {
+        title: string
+        description: string
+      }
+      marketing: {
+        title: string
+        description: string
+      }
+    }
+    alwaysActive: string
+    more: string
+    links: {
+      imprint: string
+      privacy: string
+    }
+  }
 }

@@ -1,13 +1,17 @@
 import type { Metadata } from 'next'
+import { headers } from 'next/headers'
 import { notFound } from 'next/navigation'
 import Script from 'next/script'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { SmoothScroll } from '@/components/smooth-scroll'
 import { FloatingDonate } from '@/components/donate/floating-donate'
+import { CookieConsentBanner } from '@/components/cookie-consent-banner'
+import { AnalyticsGate } from '@/components/analytics-gate'
 import { isLocale, locales, type Locale } from '@/lib/i18n/config'
 import { getDictionary } from '@/lib/i18n/get-dictionary'
 import { siteConfig } from '@/lib/site-config'
+import { readConsentFromRequest } from '@/lib/cookie-consent'
 
 type Props = { children: React.ReactNode; params: Promise<{ locale: string }> }
 
@@ -58,6 +62,9 @@ export default async function LocaleLayout({ children, params }: Props) {
   if (!isLocale(locale)) notFound()
   const dict = await getDictionary(locale as Locale)
 
+  const cookieHeader = headers().get('cookie') ?? null
+  const initialConsent = readConsentFromRequest(cookieHeader)
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -101,6 +108,8 @@ export default async function LocaleLayout({ children, params }: Props) {
           </main>
           <SiteFooter locale={locale} dict={dict} />
           <FloatingDonate locale={locale} label={dict.donate.cta} shortLabel={dict.donate.ctaShort} />
+          <CookieConsentBanner locale={locale} dict={dict} initialState={initialConsent} />
+          <AnalyticsGate initial={initialConsent} />
         </div>
       </SmoothScroll>
     </>

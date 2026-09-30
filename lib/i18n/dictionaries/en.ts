@@ -251,6 +251,7 @@ export const en: Dictionary = {
     imprint: 'Imprint',
     privacy: 'Privacy',
     statutes: 'Statutes',
+    cookieSettings: 'Cookie settings',
   },
   about: {
     meta: {
@@ -359,5 +360,37 @@ export const en: Dictionary = {
   notFound: {
     title: 'Page not found',
     text: 'The page you requested does not exist or has been moved.',
+  },
+  consent: {
+    title: 'This website uses cookies',
+    description:
+      'We use cookies to provide essential features and to continuously improve our service. You can choose which categories you want to allow. Further information is available in our privacy policy.',
+    acceptAll: 'Accept all',
+    rejectAll: 'Necessary only',
+    save: 'Save selection',
+    customize: 'Settings',
+    categories: {
+      necessary: {
+        title: 'Necessary',
+        description:
+          'Technically required cookies ensure the basic functionality of the website. Without them, proper use is not possible. Examples: language preference (1 year), consent decision (12 months), CSRF token (session).',
+      },
+      statistics: {
+        title: 'Statistics',
+        description:
+          'Allow us to analyze visitor behavior pseudonymously in order to optimize content and technology. Used: Google Analytics 4 (with IP masking) on the basis of a legitimate interest (Art. 6 para. 1 lit. f GDPR).',
+      },
+      marketing: {
+        title: 'Marketing',
+        description:
+          'Used to present suitable content to visitors on third-party sites (e.g. social media). Disabled by default on this website; activated only with your express consent.',
+      },
+    },
+    alwaysActive: 'Always active',
+    more: 'More information',
+    links: {
+      imprint: 'Imprint',
+      privacy: 'Privacy',
+    },
   },
 }

@@ -24,7 +24,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-const sections: { title: string; paragraphs: string[] }[] = [
+const sections: Array<{
+  title: string
+  paragraphs: string[]
+  subSections?: { title: string; paragraphs: string[] }[]
+}> = [
   {
     title: '1. Verantwortlicher',
     paragraphs: [
@@ -44,31 +48,61 @@ const sections: { title: string; paragraphs: string[] }[] = [
     ],
   },
   {
-    title: '4. Kontaktaufnahme',
+    title: '4. Cookies und Einwilligungsmanagement',
+    paragraphs: [
+      'Beim erstmaligen Aufruf der Website werden Sie über den Einsatz von Cookies informiert und können Ihre Einwilligung gemäß Art. 7 Abs. 1, Art. 6 Abs. 1 lit. a DSGVO erteilen, ablehnen oder individuell gestalten. Ihre Entscheidung wird für die Dauer von 12 Monaten in einem technisch notwendigen Cookie gespeichert (Name: `cookie_consent`). Sie können Ihre Entscheidung jederzeit über den Link „Cookie-Einstellungen“ im Footer widerrufen bzw. anpassen.',
+      'Unser Cookie-Einwilligungsmanagement unterscheidet folgende Kategorien:',
+    ],
+  },
+  {
+    title: '5. Einzelne Cookie-Kategorien',
+    paragraphs: [],
+    subSections: [
+      {
+        title: '5.1 Notwendige Cookies (immer aktiv)',
+        paragraphs: [
+          'Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Betriebsbereitschaft der Website).',
+          '• `locale` – Speicherung Ihrer Sprachauswahl (Gültigkeit: 12 Monate, 1. Anbieter: Wir selbst / Betreiber dieser Seite)',
+          '• `cookie_consent` – Speicherung Ihrer Einwilligungsentscheidung (Gültigkeit: 12 Monate, 1. Anbieter: Wir selbst)',
+          '• Sitzungs-Cookies (CSRF) – Absicherung von Formularen (Gültigkeit: Sitzungsdauer, 1. Anbieter: Wir selbst)',
+        ],
+      },
+      {
+        title: '5.2 Statistik-Cookies (nur mit Einwilligung)',
+        paragraphs: [
+          'Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der pseudonymisierten Analyse zur Optimierung).',
+          'Wird ausschließlich nach Ihrer positiven Entscheidung geladen: Google Analytics 4 (Google Ireland Limited, Dublin, Irland) mit aktivierter IP-Anonymisierung (Funktion `anonymizeIp`). Cookies von Google: `_ga`, `_ga_<ID>` (jeweils 2 Jahre Gültigkeit). Weitere Hinweise: https://policies.google.com/privacy?hl=de',
+        ],
+      },
+      {
+        title: '5.3 Marketing-Cookies (nur mit ausdrücklicher Einwilligung)',
+        paragraphs: [
+          'Rechtsgrundlage: ausschließlich Art. 6 Abs. 1 lit. a DSGVO (Ihre ausdrückliche Einwilligung).',
+          'Standardmäßig deaktiviert. Werden bei Aktivierung zum Remarketing gegenüber Drittanbietern (Meta Pixel, X Pixel) auf Seiten wie Facebook, Instagram, X verwendet. Sie können die Einwilligung jederzeit im Cookie-Banner widerrufen.',
+        ],
+      },
+    ],
+  },
+  {
+    title: '6. Kontaktaufnahme',
     paragraphs: [
       'Wenn Sie per E-Mail oder Telefon mit uns Kontakt aufnehmen, werden Ihre Angaben zur Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung Ihrer Anfrage). Diese Daten geben wir nicht ohne Ihre Einwilligung weiter.',
     ],
   },
   {
-    title: '5. Cookies',
-    paragraphs: [
-      'Diese Website verwendet lediglich ein technisch notwendiges Cookie zur Speicherung Ihrer Sprachauswahl. Es werden keine Tracking- oder Marketing-Cookies eingesetzt.',
-    ],
-  },
-  {
-    title: '6. Externe Dienste',
+    title: '7. Externe Dienste',
     paragraphs: [
       'Beim Klick auf „Route planen“ werden Sie zu Google Maps (Google Ireland Limited) weitergeleitet. Erst mit dem Aufruf werden Daten an Google übermittelt. Weitere Informationen finden Sie in der Datenschutzerklärung von Google. Schriftarten werden lokal von unserem Server ausgeliefert; es erfolgt keine Verbindung zu Google Fonts.',
     ],
   },
   {
-    title: '7. Ihre Rechte',
+    title: '8. Ihre Rechte',
     paragraphs: [
       'Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16 DSGVO), Löschung (Art. 17 DSGVO), Einschränkung der Verarbeitung (Art. 18 DSGVO), Datenübertragbarkeit (Art. 20 DSGVO) sowie Widerspruch (Art. 21 DSGVO). Sie haben außerdem das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren, z. B. bei der Landesbeauftragten für Datenschutz und Informationsfreiheit Nordrhein-Westfalen.',
     ],
   },
   {
-    title: '8. Aktualität',
+    title: '9. Aktualität',
     paragraphs: ['Diese Datenschutzerklärung wird bei Bedarf angepasst. Es gilt die jeweils auf dieser Seite veröffentlichte Fassung.'],
   },
 ]
@@ -97,6 +131,18 @@ export default async function PrivacyPage({ params }: Props) {
                   <p key={i} className="text-pretty">
                     {p}
                   </p>
+                ))}
+                {s.subSections?.map((sub) => (
+                  <section key={sub.title} className="mt-2 flex flex-col gap-3 pl-4">
+                    <h3 className="font-display text-lg font-semibold tracking-tight text-foreground/95">
+                      {sub.title}
+                    </h3>
+                    {sub.paragraphs.map((p, i) => (
+                      <p key={i} className="text-pretty">
+                        {p}
+                      </p>
+                    ))}
+                  </section>
                 ))}
               </section>
             ))}

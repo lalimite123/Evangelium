@@ -251,6 +251,7 @@ export const fr: Dictionary = {
     imprint: 'Impressum',
     privacy: 'Confidentialité',
     statutes: 'Statuts',
+    cookieSettings: 'Paramètres des cookies',
   },
   about: {
     meta: {
@@ -359,5 +360,37 @@ export const fr: Dictionary = {
   notFound: {
     title: 'Page introuvable',
     text: "La page demandée n'existe pas ou a été déplacée.",
+  },
+  consent: {
+    title: "Ce site utilise des cookies",
+    description:
+      "Nous utilisons des cookies pour assurer les fonctionnalités essentielles et améliorer continuellement notre offre. Vous pouvez choisir les catégories que vous autorisez. Des informations détaillées sont disponibles dans notre politique de confidentialité.",
+    acceptAll: 'Tout accepter',
+    rejectAll: 'Uniquement nécessaires',
+    save: 'Enregistrer',
+    customize: 'Paramètres',
+    categories: {
+      necessary: {
+        title: 'Nécessaires',
+        description:
+          "Les cookies techniques nécessaires garantissent les fonctionnalités de base du site. Sans eux, l'utilisation est impossible. Exemples : choix de la langue (1 an), décision de consentement (12 mois), jeton CSRF (session).",
+      },
+      statistics: {
+        title: 'Statistiques',
+        description:
+          "Nous permettent d'analyser le comportement des visiteurs de manière pseudonymisée afin d'optimiser le contenu et la technique. Utilisé : Google Analytics 4 (avec masquage IP) sur la base de l'intérêt légitime (art. 6 al. 1 lit. f RGPD).",
+      },
+      marketing: {
+        title: 'Marketing',
+        description:
+          "Utilisés pour proposer du contenu adapté aux visiteurs sur des sites tiers (par ex. réseaux sociaux). Désactivés par défaut sur ce site ; activés uniquement avec votre consentement exprès.",
+      },
+    },
+    alwaysActive: 'Toujours actif',
+    more: 'Plus d\'informations',
+    links: {
+      imprint: 'Mentions légales',
+      privacy: 'Confidentialité',
+    },
   },
 }

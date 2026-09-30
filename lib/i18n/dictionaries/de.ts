@@ -251,6 +251,7 @@ export const de: Dictionary = {
     imprint: 'Impressum',
     privacy: 'Datenschutz',
     statutes: 'Satzung',
+    cookieSettings: 'Cookie-Einstellungen',
   },
   about: {
     meta: {
@@ -360,5 +361,37 @@ export const de: Dictionary = {
   notFound: {
     title: 'Seite nicht gefunden',
     text: 'Die angeforderte Seite existiert nicht oder wurde verschoben.',
+  },
+  consent: {
+    title: 'Diese Website verwendet Cookies',
+    description:
+      'Wir nutzen Cookies, um grundlegende Funktionen bereitzustellen und unser Angebot stetig zu verbessern. Sie können wählen, welche Kategorien Sie erlauben möchten. Nähere Informationen finden Sie in der Datenschutzerklärung.',
+    acceptAll: 'Alle akzeptieren',
+    rejectAll: 'Nur notwendige',
+    save: 'Auswahl speichern',
+    customize: 'Einstellungen',
+    categories: {
+      necessary: {
+        title: 'Notwendig',
+        description:
+          'Technisch erforderliche Cookies sichern die Grundfunktionen der Website. Ohne sie ist die Nutzung nicht ordnungsgemäß möglich. Beispiele: Sprachauswahl (1 Jahr), Cookie-Einwilligung (12 Monate), CSRF-Token (Sitzung).',
+      },
+      statistics: {
+        title: 'Statistiken',
+        description:
+          'Ermöglichen es uns, das Besucherverhalten pseudonymisiert auszuwerten, um Inhalte und Technik zu optimieren. Verwendet: Google Analytics 4 (mit IP-Maskierung) auf Grundlage eines berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO).',
+      },
+      marketing: {
+        title: 'Marketing',
+        description:
+          'Werden verwendet, um Besucher auf Seiten Dritter (z. B. Social Media) mit passenden Inhalten anzusprechen. Auf dieser Website standardmäßig deaktiviert; Aktivierung erfolgt nur durch Ihre ausdrückliche Einwilligung.',
+      },
+    },
+    alwaysActive: 'Immer aktiv',
+    more: 'Weitere Informationen',
+    links: {
+      imprint: 'Impressum',
+      privacy: 'Datenschutz',
+    },
   },
 }

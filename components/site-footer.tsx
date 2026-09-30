@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { FacebookIcon, InstagramIcon, YoutubeIcon } from '@/components/social-icons'
 import { LanguageSwitcher } from '@/components/language-switcher'
 import { DonateButton } from '@/components/donate/donate-button'
+import { OpenCookieSettings } from '@/components/open-cookie-settings'
 import { localePath, type Locale } from '@/lib/i18n/config'
 import type { Dictionary } from '@/lib/i18n/types'
 import { siteConfig } from '@/lib/site-config'
@@ -110,7 +111,13 @@ export function SiteFooter({ locale, dict }: Props) {
           <p>
             © {year} {siteConfig.name}. {dict.footer.rights} · {dict.footer.register}.
           </p>
-          <LanguageSwitcher locale={locale} label={dict.footer.language} tone="inverted" />
+          <div className="flex flex-wrap items-center gap-3">
+            <OpenCookieSettings
+              label={dict.footer.cookieSettings}
+              className="text-xs text-forest-foreground/60 transition-colors hover:text-accent"
+            />
+            <LanguageSwitcher locale={locale} label={dict.footer.language} tone="inverted" />
+          </div>
         </div>
       </div>
 
